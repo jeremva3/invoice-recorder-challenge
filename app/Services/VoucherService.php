@@ -101,7 +101,7 @@ class VoucherService
             $xml = new SimpleXMLElement($voucher->xml_content);
 
             $seriesFull = (string) $xml->xpath('//cbc:ID')[0];
-            list($series, $number) = explode('-', $seriesFull); 
+            list($series, $number) = explode('-', $seriesFull);
             $invoiceTypeCode = (string) $xml->xpath('//cbc:InvoiceTypeCode')[0];
             $currency = (string) $xml->xpath('//cbc:DocumentCurrencyCode')[0];
 
@@ -112,5 +112,16 @@ class VoucherService
 
             $voucher->save();
         }
+    }
+
+    public function getTotalAmounts(): object
+    {
+        $totalSoles = Voucher::where('currency', 'PEN')->sum('total_amount');
+        $totalDollars = Voucher::where('currency', 'USD')->sum('total_amount');
+
+        return (object) [
+            'total_soles' => $totalSoles,
+            'total_dollars' => $totalDollars,
+        ];
     }
 }
