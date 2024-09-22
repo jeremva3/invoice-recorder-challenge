@@ -43,6 +43,10 @@ Puedes encontrar información inicial para popular la DB en el siguiente enlace:
 
 Se desea poder registrar la serie, número, tipo de comprobante y moneda. Para comprobantes existentes, debería extraerse esa información a regularizar desde el campo xml_content de vouchers.
 
+# Question
+Tengo una consulta para esta pregunta, entiendo que debo agregar nuevas columnas a la tabla voucher y permitir que se registre   la serie, número, tipo de comprobante y moneda, para los comprobantes existentes deberia crear un endpoint o aniadir funcionalidad que permita regularizar la informacion de la serie, número, tipo de comprobante y moneda de los registros que aun no tienen esta informacion desde el xml_content, es correcto esto, de no ser asi me podria dar una breve explicacion de lo que se pide porfavor.
+Gracias de antemano.
+
 ### 2. Carga de comprobantes en segundo plano
 
 Actualmente el registro de comprobantes se realiza en primer plano, se desea que se realice en segundo plano.

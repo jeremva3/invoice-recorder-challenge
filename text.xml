@@ -115,7 +115,7 @@
          <cbc:ID schemeID="6" schemeName="Documento de Identidad" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06">10102784427</cbc:ID>
        </cac:PartyIdentification>
        <cac:PartyLegalEntity>
-         <cbc:RegistrationName>APARICIO RAMOS ANGIE EVELYN</cbc:RegistrationName>
+         <cbc:RegistrationName>JEREMYK RUFINO VARGAS ARQQUE</cbc:RegistrationName>
          <cac:RegistrationAddress>
            <cac:AddressLine>
              <cbc:Line>CALLE JOSE SABOGAL 127 URB. AURORA MIRAFLORES</cbc:Line>
