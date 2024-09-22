@@ -47,6 +47,12 @@ class VoucherService
 
         $totalAmount = (string) $xml->xpath('//cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount')[0];
 
+        // Extracting invoice details
+        $seriesFull = (string) $xml->xpath('//cbc:ID')[0]; // Full series and number (e.g., F011-604)
+        list($series, $number) = explode('-', $seriesFull); // Separating series and number
+        $invoiceTypeCode = (string) $xml->xpath('//cbc:InvoiceTypeCode')[0];
+        $currency = (string) $xml->xpath('//cbc:DocumentCurrencyCode')[0];
+
         $voucher = new Voucher([
             'issuer_name' => $issuerName,
             'issuer_document_type' => $issuerDocumentType,
@@ -57,6 +63,11 @@ class VoucherService
             'total_amount' => $totalAmount,
             'xml_content' => $xmlContent,
             'user_id' => $user->id,
+            # Set invoice details
+            'voucher_series' => $series,
+            'voucher_number' => $number,
+            'voucher_type' => $invoiceTypeCode,
+            'currency' => $currency,
         ]);
         $voucher->save();
 
@@ -76,5 +87,30 @@ class VoucherService
         }
 
         return $voucher;
+    }
+
+    public function regularizeVouchers(): void
+    {
+        $vouchers = Voucher::whereNull('voucher_series')
+            ->orWhereNull('voucher_number')
+            ->orWhereNull('voucher_type')
+            ->orWhereNull('currency')
+            ->get();
+
+        foreach ($vouchers as $voucher) {
+            $xml = new SimpleXMLElement($voucher->xml_content);
+
+            $seriesFull = (string) $xml->xpath('//cbc:ID')[0];
+            list($series, $number) = explode('-', $seriesFull); 
+            $invoiceTypeCode = (string) $xml->xpath('//cbc:InvoiceTypeCode')[0];
+            $currency = (string) $xml->xpath('//cbc:DocumentCurrencyCode')[0];
+
+            $voucher->voucher_series = $series;
+            $voucher->voucher_number = $number;
+            $voucher->voucher_type = $invoiceTypeCode;
+            $voucher->currency = $currency;
+
+            $voucher->save();
+        }
     }
 }
