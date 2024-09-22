@@ -3,21 +3,22 @@
 namespace App\Http\Controllers\Vouchers;
 
 use App\Http\Resources\Vouchers\VoucherResource;
+use App\Http\Resources\Vouchers\VoucherTotalAmountsResource;
 use App\Services\VoucherService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class RegularizeStoreVouchersHandler
+class GetTotalAmountsVouchersHandler
 {
     public function __construct(private readonly VoucherService $voucherService) {}
 
     public function __invoke(): Response
     {
         try {
-            $this->voucherService->regularizeVouchers();
+            $totals = $this->voucherService->getTotalAmounts();
             return response([
-                'message' => 'Invoices successfully regularized.',
+                'data' => new  VoucherTotalAmountsResource($totals),
             ], 200);
         } catch (Exception $exception) {
             return response([

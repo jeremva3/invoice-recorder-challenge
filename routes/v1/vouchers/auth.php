@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Vouchers\GetTotalAmountsVouchersHandler;
 use App\Http\Controllers\Vouchers\GetVouchersHandler;
 use App\Http\Controllers\Vouchers\RegularizeStoreVouchersHandler;
 use App\Http\Controllers\Vouchers\StoreVouchersHandler;
@@ -12,6 +13,6 @@ Route::prefix('vouchers')->group(
         Route::get('/', GetVouchersHandler::class);
         Route::post('/', StoreVouchersHandler::class);
         Route::put('/regularize', RegularizeStoreVouchersHandler::class);
-        Route::put('/totals-amounts', GetTotalAmountsControllers::class);
+        Route::get('/totals-amounts', GetTotalAmountsVouchersHandler::class);
     }
 );
