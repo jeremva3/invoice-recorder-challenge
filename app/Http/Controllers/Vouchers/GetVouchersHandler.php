@@ -9,13 +9,15 @@ use Illuminate\Http\Response;
 
 class GetVouchersHandler
 {
-    public function __construct(private readonly VoucherService $voucherService)
-    {
-    }
+    public function __construct(private readonly VoucherService $voucherService) {}
 
     public function __invoke(GetVouchersRequest $request): Response
     {
         $vouchers = $this->voucherService->getVouchers(
+            $request->query('series'),
+            $request->query('number'),
+            $request->query('start_date'),
+            $request->query('end_date'),
             $request->query('page'),
             $request->query('paginate'),
         );

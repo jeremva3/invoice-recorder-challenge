@@ -11,9 +11,21 @@ use SimpleXMLElement;
 
 class VoucherService
 {
-    public function getVouchers(int $page, int $paginate): LengthAwarePaginator
+    public function getVouchers(string $series = null, string $number = null, string $startDate = null, string $endDate = null, int $page, int $paginate): LengthAwarePaginator
     {
-        return Voucher::with(['lines', 'user'])->paginate(perPage: $paginate, page: $page);
+        $query = Voucher::query();
+
+        if ($series) {
+            $query->where('voucher_series', 'like', "%$series%");
+        }
+        if ($number) {
+            $query->where('voucher_number', 'like', "%$number%");
+        }
+        if ($startDate && $endDate) {
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        }
+
+        return $query->with(['lines', 'user'])->paginate(perPage: $paginate, page: $page);
     }
 
     /**
