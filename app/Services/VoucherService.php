@@ -124,4 +124,13 @@ class VoucherService
             'total_dollars' => $totalDollars,
         ];
     }
+
+    public function deleteVoucher(string $id): void
+    {
+        $voucher = Voucher::findOrFail($id);
+
+        $voucher->delete();
+
+        $voucher->lines()->delete();
+    }
 }
